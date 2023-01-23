@@ -20,38 +20,13 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object Module {
-
-    @Singleton
-    @Provides
-    fun provideOhHttpClient():OkHttpClient{
-        val loggingInterceptor=HttpLoggingInterceptor()
-        loggingInterceptor.level=HttpLoggingInterceptor.Level.BODY
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient):Retrofit=Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    @Provides
-    @Singleton
-    fun provideNewsApiService(retrofit: Retrofit) = retrofit.create(NewsAPIServices::class.java)
-
-    @Provides
-    @Singleton
-    fun provideNewsApiHelper(newsHelperImp: NewsHelperImp): NewsAPIHelper = newsHelperImp
-
+object LocalModule {
     @Singleton
     @Provides
     fun provideDao(newsDataBase: NewsDataBase)=newsDataBase.newsDao()
 
+    @Singleton
+    @Provides
     fun provideNewsDataBase(@ApplicationContext context: Context):NewsDataBase{
         return Room.databaseBuilder(context,
             NewsDataBase::class.java,
