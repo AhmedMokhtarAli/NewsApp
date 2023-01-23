@@ -1,12 +1,16 @@
 package com.example.news.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.news.api.NewsAPIHelper
 import com.example.news.api.NewsAPIServices
 import com.example.news.api.NewsHelperImp
+import com.example.news.database.NewsDataBase
 import com.example.news.util.Constant.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -44,4 +48,14 @@ object Module {
     @Singleton
     fun provideNewsApiHelper(newsHelperImp: NewsHelperImp): NewsAPIHelper = newsHelperImp
 
+    @Singleton
+    @Provides
+    fun provideDao(newsDataBase: NewsDataBase)=newsDataBase.newsDao()
+
+    fun provideNewsDataBase(@ApplicationContext context: Context):NewsDataBase{
+        return Room.databaseBuilder(context,
+            NewsDataBase::class.java,
+            "NewsDataBase"
+            ).build()
+    }
 }
