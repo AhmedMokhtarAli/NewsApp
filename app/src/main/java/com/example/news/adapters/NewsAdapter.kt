@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news.Article
 import com.example.news.databinding.ItemArticleBinding
 
-class Adapter : RecyclerView.Adapter<Adapter.ArticleViewHolder>() {
+class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     private val differCallback=object : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
