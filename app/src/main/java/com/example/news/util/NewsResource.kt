@@ -5,6 +5,6 @@ sealed class NewsResource<T>(
     val message:String?=null
 ){
     class Success<T>(data: T):NewsResource<T>(data)
-    class Erorr<T>(message: String,data: T?= null ):NewsResource<T>(data,message)
+    class Erorr<T>(data: T?= null,message: String ):NewsResource<T>(data,message)
     class Loading<T>:NewsResource<T>()
 }

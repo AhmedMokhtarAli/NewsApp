@@ -6,11 +6,13 @@
         <entry key="..\:/ANDROID/News/app/src/main/res/drawable/all_news.xml" value="0.152" />
         <entry key="..\:/ANDROID/News/app/src/main/res/drawable/ic_favorite.xml" value="0.152" />
         <entry key="..\:/ANDROID/News/app/src/main/res/drawable/ic_news.xml" value="0.152" />
-        <entry key="..\:/ANDROID/News/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/ANDROID/News/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/ANDROID/News/app/src/main/res/layout/fragment_article.xml" value="0.20416666666666666" />
         <entry key="..\:/ANDROID/News/app/src/main/res/layout/fragment_favorits.xml" value="0.19010416666666666" />
+        <entry key="..\:/ANDROID/News/app/src/main/res/layout/fragment_news.xml" value="0.20416666666666666" />
         <entry key="..\:/ANDROID/News/app/src/main/res/layout/fragment_search.xml" value="0.19010416666666666" />
         <entry key="..\:/ANDROID/News/app/src/main/res/layout/item_article.xml" value="0.20416666666666666" />
+        <entry key="..\:/ANDROID/News/app/src/main/res/menu/news_menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

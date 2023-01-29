@@ -6,6 +6,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.news.R
@@ -14,17 +17,24 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityMainBinding
     private lateinit var navController:NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        navController=findNavController(R.id.nav_host_fragment_container)
+        val navHost=supportFragmentManager.findFragmentById(R.id.navFragment) as NavHostFragment
+
+        navController=navHost.navController
+
         setupActionBarWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
+
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp() || navController.navigateUp()
+    override fun onNavigateUp(): Boolean {
+        return super.onNavigateUp()||navController.navigateUp()
     }
 }

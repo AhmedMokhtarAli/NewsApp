@@ -17,11 +17,13 @@ class NewsViewModel @Inject constructor(private val repository: Repository):View
     val news:MutableLiveData<NewsResource<NewsResponse>> = MutableLiveData()
     val page=1
 
+    init{getNews("us")}
     fun getNews(countryCode:String)=viewModelScope.launch {
         news.postValue(NewsResource.Loading())
         val response=repository.getNews(countryCode,page)
         news.postValue(handelNewsResponse(response))
     }
+
 
     private fun handelNewsResponse(response: Response<NewsResponse>):NewsResource<NewsResponse>{
         if (response.isSuccessful){
@@ -30,6 +32,6 @@ class NewsViewModel @Inject constructor(private val repository: Repository):View
 
             }
         }
-        return NewsResource.Erorr(response.message())
+        return NewsResource.Erorr(null,response.message())
     }
 }

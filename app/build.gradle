@@ -60,6 +60,7 @@ dependencies {
     //hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
 
     //retrofit,logging-interceptor and Gson
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

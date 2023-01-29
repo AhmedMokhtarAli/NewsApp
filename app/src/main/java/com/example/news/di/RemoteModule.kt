@@ -1,6 +1,8 @@
 package com.example.news.di
 
+import com.example.news.api.NewsAPIHelper
 import com.example.news.api.NewsAPIServices
+import com.example.news.api.NewsHelperImp
 import com.example.news.util.Constant
 import dagger.Module
 import dagger.Provides
@@ -36,4 +38,8 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideNewsApiService(retrofit: Retrofit) = retrofit.create(NewsAPIServices::class.java)
+
+    @Singleton
+    @Provides
+    fun provideNewsApiHelper(apiHelper:NewsHelperImp):NewsAPIHelper=apiHelper
 }
