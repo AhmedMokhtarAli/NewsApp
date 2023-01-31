@@ -9,7 +9,7 @@ class NewsHelperImp @Inject constructor(private val newsAPIServices: NewsAPIServ
         return newsAPIServices.getNews(countryCode,pageNum)
     }
 
-    override suspend fun searchForNews(query: String):Response<NewsResponse> {
-       return newsAPIServices.searchForNews(query)
+    override suspend fun searchForNews(query: String,pageNum: Int):Response<NewsResponse> {
+       return newsAPIServices.searchForNews(query,pageNum)
     }
 }

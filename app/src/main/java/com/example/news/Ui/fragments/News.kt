@@ -37,26 +37,19 @@ class News : Fragment() {
         newsViewModel.news.observe(viewLifecycleOwner, Observer { response ->
             when(response){
                 is NewsResource.Success -> {
-                    hideProgressPar()
+                    hideShimmer()
                     response.data?.let { newsResponse ->
                         newsAdapter.differ.submitList(newsResponse.articles)
                         Log.d(TAG,"size is ${newsResponse.articles.size}" )
-                        binding.News.text="news"
                     }
-                    binding.News.text="news9"
                 }
                 is NewsResource.Erorr -> {
-                    showProgressPar()
                     response.message?.let { message ->
                         Log.e(TAG,"error is $message")
-                        binding.News.text=message
                     }
-                    binding.News.text=response.message
                 }
                 is NewsResource.Loading ->{
-                    showProgressPar()
                     Log.d(TAG,"loading" )
-                    binding.News.text="loading"
                 }
             }
         })
@@ -72,10 +65,19 @@ class News : Fragment() {
         }
     }
 
-    private fun hideProgressPar(){
-        binding.paginationProgressBar.visibility=View.INVISIBLE
+    override fun onStart() {
+        super.onStart()
+        binding.rvBreakingNewShimmer.startShimmerAnimation()
     }
-    private fun showProgressPar(){
-        binding.paginationProgressBar.visibility=View.VISIBLE
+
+    override fun onPause() {
+        super.onPause()
+        binding.rvBreakingNewShimmer.stopShimmerAnimation()
     }
+
+    private fun hideShimmer(){
+        binding.rvBreakingNewShimmer.setVisibility(View.GONE)
+        binding.rvBreakingNewShimmer.stopShimmerAnimation()
+    }
+
 }

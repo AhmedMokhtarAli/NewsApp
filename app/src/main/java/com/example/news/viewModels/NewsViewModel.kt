@@ -15,15 +15,24 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(private val repository: Repository):ViewModel() {
 
     val news:MutableLiveData<NewsResource<NewsResponse>> = MutableLiveData()
-    val page=1
+    val news_page=1
+
+    val searchNews:MutableLiveData<NewsResource<NewsResponse>> = MutableLiveData()
+    val search_page=1
 
     init{getNews("us")}
-    fun getNews(countryCode:String)=viewModelScope.launch {
+
+    private fun getNews(countryCode:String)=viewModelScope.launch {
         news.postValue(NewsResource.Loading())
-        val response=repository.getNews(countryCode,page)
+        val response=repository.getNews(countryCode,news_page)
         news.postValue(handelNewsResponse(response))
     }
 
+    fun searchNews(searchQuery:String)=viewModelScope.launch {
+        searchNews.postValue(NewsResource.Loading())
+        val response=repository.searchNews(searchQuery,search_page)
+        searchNews.postValue(handelNewsResponse(response))
+    }
 
     private fun handelNewsResponse(response: Response<NewsResponse>):NewsResource<NewsResponse>{
         if (response.isSuccessful){
@@ -34,4 +43,15 @@ class NewsViewModel @Inject constructor(private val repository: Repository):View
         }
         return NewsResource.Erorr(null,response.message())
     }
+
+    private fun handelSearchResponse(response: Response<NewsResponse>):NewsResource<NewsResponse>{
+        if (response.isSuccessful){
+            response.body()?.let {  resultResponse ->
+                return NewsResource.Success(resultResponse)
+
+            }
+        }
+        return NewsResource.Erorr(null,response.message())
+    }
+
 }

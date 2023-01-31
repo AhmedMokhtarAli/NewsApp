@@ -9,8 +9,10 @@ import com.example.news.Article
 import com.example.news.Ui.fragments.NewsDirections
 
 @BindingAdapter("setImageResource")
-fun ImageView.setImageResource(url:String){
-    Glide.with(this).load(url).into(this)
+fun ImageView.setImageResource(url:String?){
+    url?.let{ imageUrl ->
+        Glide.with(this).load(imageUrl).into(this)
+    }
 }
 
 @BindingAdapter("navToArticle")

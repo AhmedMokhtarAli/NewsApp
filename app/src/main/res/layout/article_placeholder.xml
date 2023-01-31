@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/ivArticleImage"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/shimmer_background"
+        />
+
+    <TextView
+        android:id="@+id/tvSource"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@color/shimmer_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivArticleImage" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:ellipsize="end"
+        android:background="@color/shimmer_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/ivArticleImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:ellipsize="end"
+        android:background="@color/shimmer_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivArticleImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvPublishedAt"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@color/shimmer_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSource" />
+</androidx.constraintlayout.widget.ConstraintLayout>
