@@ -5,9 +5,13 @@
 
     <data>
         <import type="com.example.news.Article"/>
+
         <variable
             name="article"
             type="Article" />
+        <variable
+            name="fragmentId"
+            type="java.lang.Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +19,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         navToArticle="@{article}"
+        fragmentId="@{fragmentId}"
         >
 
         <ImageView

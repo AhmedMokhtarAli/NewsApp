@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import com.example.news.adapters.NewsAdapter
 import com.example.news.databinding.FragmentNewsBinding
+import com.example.news.util.Constant.Companion.NEWS_FRAGMENT_ID
 import com.example.news.util.NewsResource
 import com.example.news.viewModels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +59,7 @@ class News : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(NEWS_FRAGMENT_ID)
         binding.rvBreakingNews.apply {
             adapter=newsAdapter
             layoutManager=LinearLayoutManager(activity)

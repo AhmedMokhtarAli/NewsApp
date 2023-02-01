@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news.Article
 import com.example.news.databinding.ItemArticleBinding
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter(val fragmentId:Int) : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     private val differCallback=object : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -29,14 +29,15 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article=differ.currentList[position]
-        holder.bindArticle(article)
+        holder.bindArticle(article,fragmentId)
     }
 
     override fun getItemCount(): Int =differ.currentList.size
 
     class ArticleViewHolder(val articleItem:ItemArticleBinding): RecyclerView.ViewHolder(articleItem.root){
-       fun bindArticle(article: Article){
+       fun bindArticle(article: Article,fragmentId:Int){
            articleItem.article=article
+           articleItem.fragmentId=fragmentId
        }
     }
 }

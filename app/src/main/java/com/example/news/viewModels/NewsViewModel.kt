@@ -3,6 +3,7 @@ package com.example.news.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news.Article
 import com.example.news.models.NewsResponse
 import com.example.news.repository.Repository
 import com.example.news.util.NewsResource
@@ -31,7 +32,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository):View
     fun searchNews(searchQuery:String)=viewModelScope.launch {
         searchNews.postValue(NewsResource.Loading())
         val response=repository.searchNews(searchQuery,search_page)
-        searchNews.postValue(handelNewsResponse(response))
+        searchNews.postValue(handelSearchResponse(response))
     }
 
     private fun handelNewsResponse(response: Response<NewsResponse>):NewsResource<NewsResponse>{
@@ -54,4 +55,13 @@ class NewsViewModel @Inject constructor(private val repository: Repository):View
         return NewsResource.Erorr(null,response.message())
     }
 
+    fun getFavoritArticles()=repository.getFavortis()
+
+    fun addToFavorit(article: Article)=viewModelScope.launch {
+        repository.insertArticle(article)
+    }
+
+    fun deletArticle(article: Article)=viewModelScope.launch {
+        repository.deletArticle(article)
+    }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.adapters.NewsAdapter
 import com.example.news.databinding.FragmentSearchBinding
 import com.example.news.util.Constant.Companion.SEARCH_DELAY_TIME
+import com.example.news.util.Constant.Companion.SEARCH_FRAGMENT_ID
 import com.example.news.util.NewsResource
 import com.example.news.viewModels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,7 +74,7 @@ class Search : Fragment() {
 
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(SEARCH_FRAGMENT_ID)
         binding.rvSearchNews.apply {
             adapter=newsAdapter
             layoutManager= LinearLayoutManager(activity)
@@ -81,10 +82,12 @@ class Search : Fragment() {
     }
 
     private fun hideShimmer(){
+        binding.rvSearchNews.setVisibility(View.VISIBLE)
         binding.rvSearchShimmer.setVisibility(View.GONE)
         binding.rvSearchShimmer.stopShimmerAnimation()
     }
     private fun showShimmer(){
+        binding.rvSearchNews.setVisibility(View.GONE)
         binding.rvSearchShimmer.setVisibility(View.VISIBLE)
         binding.rvSearchShimmer.startShimmerAnimation()
     }
