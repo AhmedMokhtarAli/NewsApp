@@ -29,6 +29,8 @@ class NewsViewModel @Inject constructor( application: Application ,private val r
     val searchNews:MutableLiveData<NewsResource<NewsResponse>> = MutableLiveData()
     var searchResponse:NewsResponse?=null
     var search_page=1
+    var old_search_query:String?=null
+    var new_search_query:String?=null
 
     init{getNews("us")}
 
@@ -65,12 +67,15 @@ class NewsViewModel @Inject constructor( application: Application ,private val r
         if (response.isSuccessful){
             response.body()?.let {  resultResponse ->
                 search_page++
-                if(searchResponse==null)
+                if(searchResponse==null || new_search_query != old_search_query)
                 {
+                    search_page=1
+                    old_search_query=new_search_query
                     searchResponse=resultResponse
                 }
                 else{
-                    val oldArticles=newsResponse?.articles
+                    search_page++
+                    val oldArticles=searchResponse?.articles
                     val newArticles=resultResponse?.articles
                     oldArticles?.addAll(newArticles)
                 }
@@ -110,6 +115,7 @@ class NewsViewModel @Inject constructor( application: Application ,private val r
         }
     }
     private suspend fun safeSearchNewsCall(searchQuery: String) {
+        new_search_query=searchQuery
         searchNews.postValue(NewsResource.Loading())
         try {
             if (hasInternetConnection()) {
