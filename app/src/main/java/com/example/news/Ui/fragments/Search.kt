@@ -6,12 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news.adapters.NewsAdapter
 import com.example.news.databinding.FragmentSearchBinding
+import com.example.news.util.Constant
+import com.example.news.util.Constant.Companion.QUERY_PAGE_SIZE
 import com.example.news.util.Constant.Companion.SEARCH_DELAY_TIME
 import com.example.news.util.Constant.Companion.SEARCH_FRAGMENT_ID
 import com.example.news.util.NewsResource
@@ -53,13 +58,17 @@ class Search : Fragment() {
                     hideShimmer()
                     response.data?.let { searchResponse ->
                         newsAdapter.differ.submitList(searchResponse.articles)
-                        Log.d(TAG,"size is ${searchResponse.articles.size}" )
-                    }
+                        val totalPages=searchResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = newsViewModel.search_page == totalPages
+                        if (isLastPage)
+                        {
+                            binding.rvSearchNews.setPadding(0,0,0,0)
+                        }                    }
                 }
                 is NewsResource.Erorr -> {
                     hideShimmer()
                     response.message?.let { message ->
-                        Log.e(TAG,"error is $message")
+                        Toast.makeText(activity,"$message", Toast.LENGTH_LONG).show()
                     }
                 }
                 is NewsResource.Loading ->{
@@ -72,21 +81,58 @@ class Search : Fragment() {
         return binding.root
     }
 
+    var isLoading=false
+    var isScrolling =false
+    var isLastPage=false
+
+    val scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if(newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+                isScrolling=true
+            }
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager=recyclerView.layoutManager as LinearLayoutManager
+            val fristVisableItemPostion=layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount=layoutManager.childCount
+            val totalItemCount=layoutManager.itemCount
+
+            val isNotLoadingAndIsNotAtLastPage= !isLoading && !isLastPage
+            val isAtLastItem = fristVisableItemPostion + visibleItemCount >= totalItemCount
+            val isNotAtBeginning =fristVisableItemPostion >= 0
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndIsNotAtLastPage && isAtLastItem && isNotAtBeginning
+                    && isTotalMoreThanVisible && isScrolling
+
+            if(shouldPaginate){
+                newsViewModel.searchNews(binding.etSearch.text.toString())
+                isScrolling=false
+            }
+
+        }
+    }
 
     private fun setupRecyclerView(){
         newsAdapter = NewsAdapter(SEARCH_FRAGMENT_ID)
         binding.rvSearchNews.apply {
             adapter=newsAdapter
             layoutManager= LinearLayoutManager(activity)
+            addOnScrollListener(this@Search.scrollListener)
         }
     }
 
     private fun hideShimmer(){
+        isScrolling=false
         binding.rvSearchNews.setVisibility(View.VISIBLE)
         binding.rvSearchShimmer.setVisibility(View.GONE)
         binding.rvSearchShimmer.stopShimmerAnimation()
     }
     private fun showShimmer(){
+        isScrolling=true
         binding.rvSearchNews.setVisibility(View.GONE)
         binding.rvSearchShimmer.setVisibility(View.VISIBLE)
         binding.rvSearchShimmer.startShimmerAnimation()

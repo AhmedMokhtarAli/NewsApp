@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/news_fragment"
         android:name="com.example.news.Ui.fragments.News"
-        android:label="fragment_news"
+        android:label="News"
         tools:layout="@layout/fragment_news" >
         <action
             android:id="@+id/action_news_to_article"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/article"
         android:name="com.example.news.Ui.fragments.ArticleFragment"
-        android:label="fragment_article"
+        android:label="Article"
         tools:layout="@layout/fragment_article">
     <argument
         android:name="article"

@@ -8,6 +8,7 @@ class Constant {
         const val SEARCH_FRAGMENT_ID=3
         const val FAVORIT_FRAGMENT_ID=2
         const val NEWS_FRAGMENT_ID=1
+        const val QUERY_PAGE_SIZE = 20
 
     }
 }

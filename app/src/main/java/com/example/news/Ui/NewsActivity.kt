@@ -32,9 +32,10 @@ class NewsActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
         binding.bottomNavigationView.setupWithNavController(navController)
 
+
     }
 
-    override fun onNavigateUp(): Boolean {
+    override fun onSupportNavigateUp(): Boolean {
         return super.onNavigateUp()||navController.navigateUp()
     }
 }
